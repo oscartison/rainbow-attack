@@ -1,10 +1,16 @@
 #include <string>
 #include <fstream>
+#include <thread>
+#include <mutex>
+
 
 #include "random.hpp"
 #include "sha256.h"
 
 namespace rainbow {
+
+std::mutex mtx;           // mutex for critical section
+
 
 std::string generate_passwd(int length)
 {
@@ -22,20 +28,24 @@ std::string generate_passwd(int length)
 void mass_generate(int n, int mc, int MC, const std::string& of_pwd, const std::string& of_hash)
 {
 	std::ofstream passwd_file;
-	passwd_file.open(of_pwd);
+	passwd_file.open(of_pwd,std::ios::app);
 
 	std::ofstream hash_file;
-	hash_file.open(of_hash);
+	hash_file.open(of_hash,std::ios::app);
 
 	if(passwd_file.is_open() && hash_file.is_open())
 	{		
 		for(int i = 0; i < n; i++)
 		{
+			mtx.lock();
 			std::string pass = generate_passwd(rainbow::random(mc, MC));
 			passwd_file << pass << std::endl;
 
 			std::string hash = sha256(pass);
 			hash_file << hash << std::endl;
+			mtx.unlock();
+
+		
 		}
 
 		passwd_file.close();
