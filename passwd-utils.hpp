@@ -35,6 +35,7 @@ void mass_generate(int n, int mc, int MC, const std::string& of_pwd, const std::
 
 	if(passwd_file.is_open() && hash_file.is_open())
 	{		
+		// ici tant que pas 10 Gb
 		for(int i = 0; i < n; i++)
 		{
 			mtx.lock();
