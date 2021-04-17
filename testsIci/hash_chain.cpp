@@ -1,22 +1,57 @@
 #include "hash_chain.h"
+<<<<<<< HEAD
 
 Hash_Chain::Hash_Chain(int lenght)
 {
     head = "U2RcsP"; // rainbow::generate_passwd(lenght);
+=======
+#include "random.hpp"
+#include "sha256.h"
+#include <iostream>
+#include <functional>
+#include <cmath>
+namespace rainbow {
+
+std::string generate_passwd(int length)
+{
+	static const std::string char_policy = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN1234567890";
+	static const int c_len = char_policy.length();
+
+	char str[length + 1];
+	for(int i = 0; i < length; i++)
+		str[i] = char_policy[rainbow::random(0, c_len - 1)];
+	str[length] = '\0';
+
+	return std::string(str);
+}
+
+    std::string Hash_Chain::head() {
+        return head_;
+    }
+
+     std::string Hash_Chain::tail() {
+        return tail_;
+    }
+
+
+Hash_Chain::Hash_Chain(int lenght)
+{
+    head_ = rainbow::generate_passwd(lenght);
+>>>>>>> 5f19106b888a23922e9011caf0db071518865597
     generateChain();
 }
 void Hash_Chain::generateChain(){
     std::string hash ;
     std::string passwd ;
     int i = 0 ; 
-    hash = sha256(head);
+    hash = sha256(head_);
     while (i<CHAIN_LENGTH)
     {
-        passwd = reduction_function(head.size(),i,hash);
+        passwd = reduction_function(head_.size(),i,hash);
         hash=sha256(passwd);
         i++;
     }
-    tail = passwd;
+    tail_ = passwd;
     
 }
 std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction, std::string &hash)
@@ -34,5 +69,6 @@ std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction
 
 std::string Hash_Chain::to_string()
 {
-    return head+ ":" + tail;
+    return head_+ ":" + tail_;
+}
 }
