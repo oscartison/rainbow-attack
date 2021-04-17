@@ -1,10 +1,4 @@
 #include "hash_chain.h"
-<<<<<<< HEAD
-
-Hash_Chain::Hash_Chain(int lenght)
-{
-    head = "U2RcsP"; // rainbow::generate_passwd(lenght);
-=======
 #include "random.hpp"
 #include "sha256.h"
 #include <iostream>
@@ -36,8 +30,8 @@ std::string generate_passwd(int length)
 
 Hash_Chain::Hash_Chain(int lenght)
 {
-    head_ = rainbow::generate_passwd(lenght);
->>>>>>> 5f19106b888a23922e9011caf0db071518865597
+    // pour avoir le même chaine tant qu'on test 
+    head_ = "U2RcsP" ;//rainbow::generate_passwd(lenght);
     generateChain();
 }
 void Hash_Chain::generateChain(){

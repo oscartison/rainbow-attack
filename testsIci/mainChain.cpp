@@ -12,6 +12,7 @@ using std::string;
  * @return std::string 
  */
 std::string find_passwd(std::string head, std::string hash){
+    using namespace rainbow;
     int index =  0;
     std::string pass = head;
     std::string candidatHash = sha256(head);
@@ -20,7 +21,7 @@ std::string find_passwd(std::string head, std::string hash){
         if (hash == candidatHash)
         {
             return pass;
-        }      
+        }
         pass = Hash_Chain::reduction_function(head.size(), index, candidatHash);
         candidatHash = sha256(pass);
         index++;
@@ -37,7 +38,8 @@ std::string find_passwd(std::string head, std::string hash){
  */
 std::string find_passwd(std::string hash, std::string head, std::string tail)
 {
-    int i = CHAIN_LENGTH ;
+    using namespace rainbow ;
+    int i = CHAIN_LENGTH;
     std::string candidatHashc = hash ;
      while (i > 0 )
     {
@@ -58,8 +60,8 @@ std::string find_passwd(std::string hash, std::string head, std::string tail)
 
 int main(int argc, char *argv[])
 {
-    
-    Hash_Chain c{6};
+
+    rainbow::Hash_Chain c{6};
     std::cout << c.to_string() << std::endl ;
     //0HYp6N this password had generate this hash .
     std::string temp = "12d67a31d61d09867f58570a2f3dbb6e464f98b22eb6bb16cd4b8d1f25b6f468";
