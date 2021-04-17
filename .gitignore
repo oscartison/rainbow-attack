@@ -1,0 +1,8 @@
+# pas de fichier .o
+*.o
+
+# pas de fichier .exe
+*.exe
+
+# pas de ficher .txt 
+*.txt
