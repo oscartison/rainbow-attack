@@ -1,11 +1,8 @@
 #include "hash_chain.h"
-#include "passwd-utils.hpp"
-#include <iostream>
-#include <functional>
-#include <cmath>
+
 Hash_Chain::Hash_Chain(int lenght)
 {
-    head = rainbow::generate_passwd(lenght);
+    head = "U2RcsP"; // rainbow::generate_passwd(lenght);
     generateChain();
 }
 void Hash_Chain::generateChain(){
