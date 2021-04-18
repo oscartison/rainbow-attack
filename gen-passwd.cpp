@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	int mc = std::stoi(argv[2]);
 	int MC = std::stoi(argv[3]);
 
-	ThreadPool t(8); //a pool of five threads
+	ThreadPool t(8); //a pool of 8 threads
 
     std::vector<std::future<void>> v; 
 
