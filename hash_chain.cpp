@@ -31,18 +31,21 @@ std::string generate_passwd(int length)
 Hash_Chain::Hash_Chain(int lenght)
 {
     // pour avoir le même chaine tant qu'on test 
-    head_ = "U2RcsP" ;//rainbow::generate_passwd(lenght);
+    head_ = "0HYp6N";
     generateChain();
 }
 void Hash_Chain::generateChain(){
     std::string hash ;
-    std::string passwd ;
+    std::string passwd = head_;
     int i = 0 ; 
-    hash = sha256(head_);
+    // hash = sha256(head_);
     while (i<CHAIN_LENGTH)
     {
-        passwd = reduction_function(head_.size(),i,hash);
         hash=sha256(passwd);
+        std::cout << hash << std::endl;
+        passwd = reduction_function(head_.size(),i,hash);
+        
+        
         i++;
     }
     tail_ = passwd;
@@ -53,12 +56,23 @@ std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction
     std::string charset ="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     std::string passwd ;
     std::size_t hash_int = std::hash<std::string>{}(hash);
+    
     hash_int = (hash_int + nbOfReduction) % (std::size_t)std::abs(std::pow(charset.size(), lenghtOfPasswd));
-    for (int i = 0; i < lenghtOfPasswd; i++)
-    {
-        passwd = passwd + (charset.at((hash_int *i )% charset.size()));
-    }
-    return passwd ;
+    
+    // for (int i = 0; i < lenghtOfPasswd; i++)
+    // {
+    //     passwd = passwd + (charset.at((hash_int * std::pow(i, i))% charset.size()));
+    // }
+
+
+   std::string encoded = "";
+   for (int i = 0; i < lenghtOfPasswd; i++) {
+      int r = hash_int % 62;
+      hash_int /= 62;
+      encoded = charset[r] + encoded;
+
+}
+    return encoded ;
 }
 
 std::string Hash_Chain::to_string()

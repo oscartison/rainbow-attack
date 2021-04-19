@@ -48,7 +48,9 @@ std::string find_passwd(std::string hash, std::string head, std::string tail)
         while (tmp <= CHAIN_LENGTH)
         {
             std::string temp = Hash_Chain::reduction_function(tail.size(), tmp, candidatHashc);
-            if(temp == tail ){       
+          //  std::cout << temp << std::endl;  
+            if(temp == tail ){     
+               
                 return find_passwd(head, hash);
             }
             candidatHashc = sha256(temp);
@@ -108,6 +110,7 @@ int main(int argc, char *argv[])
     std::string head = c.to_string().substr(0, 6);
     std::string tail = c.to_string().substr(7, 12);
     std::cout <<find_passwd(temp, head,tail) << std::endl;
+
 
     std::cout << find_pwd_in_file(argv[1],argv[2],argv[3]) << std::endl;
     return 0;
