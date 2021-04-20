@@ -41,14 +41,20 @@ std::string find_passwd(std::string hash, std::string head, std::string tail)
 {
     using namespace rainbow ;
     int i = CHAIN_LENGTH;
-    std::string candidatHashc = hash ;
-     while (i > 0 )
+    //std::cout << "tail : "<< tail  << std::endl;
+
+    while (i > 0)
     {
+        std::string candidatHashc = hash ;
         int tmp = i ;
+       // std::cout << "i :" << i << std::endl;
         while (tmp <= CHAIN_LENGTH)
         {
+            //std::cout << "tmp :" << tmp << std::endl;
+            //std::cout << "candidatHashc :" << candidatHashc << std::endl;
             std::string temp = Hash_Chain::reduction_function(tail.size(), tmp, candidatHashc);
-          //  std::cout << temp << std::endl;  
+            //std::cout <<"temp :"<< temp << std::endl;
+
             if(temp == tail ){     
                
                 return find_passwd(head, hash);
@@ -56,7 +62,15 @@ std::string find_passwd(std::string hash, std::string head, std::string tail)
             candidatHashc = sha256(temp);
             tmp++;
         }
+        //std::cout << "end of while imbrique avec i :" << i << std::endl;
         i--;
+    }
+    if(sha256(head)==hash){
+        return head ;
+    }
+    if (sha256(tail) == hash)
+    {
+        return tail;
     }
     return "" ;
 }
@@ -104,14 +118,15 @@ double find_pwd_in_file(const std::string& if_head, const std::string& if_tail,c
 int main(int argc, char *argv[])
 {
     rainbow::Hash_Chain c{6};
-    std::cout << c.to_string() << std::endl ;
+    //std::cout << c.to_string() << std::endl ;
     //0HYp6N this password had generate this hash .
-    std::string temp = "12d67a31d61d09867f58570a2f3dbb6e464f98b22eb6bb16cd4b8d1f25b6f468";
+    std::string temp = "27de0a9c4aa8ff2719e01ff0a986ee386aa7cfe0fca1f37509a922641573657c";
     std::string head = c.to_string().substr(0, 6);
     std::string tail = c.to_string().substr(7, 12);
-    std::cout <<find_passwd(temp, head,tail) << std::endl;
+
+    std::cout <<"finded : "<<find_passwd(temp, head,tail) << std::endl;
 
 
-    std::cout << find_pwd_in_file(argv[1],argv[2],argv[3]) << std::endl;
+    //std::cout << find_pwd_in_file(argv[1],argv[2],argv[3]) << std::endl;
     return 0;
 }

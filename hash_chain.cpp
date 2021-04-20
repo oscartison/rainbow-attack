@@ -39,16 +39,20 @@ void Hash_Chain::generateChain(){
     std::string passwd = head_;
     int i = 0 ; 
     // hash = sha256(head_);
+    std::cout << passwd << std::endl;
+
     while (i<CHAIN_LENGTH)
     {
         hash=sha256(passwd);
         std::cout << hash << std::endl;
         passwd = reduction_function(head_.size(),i,hash);
-        
-        
+        std::cout << passwd << std::endl;
+
         i++;
     }
+
     tail_ = passwd;
+    std::cout << "hash tail "<< sha256(tail_) << std::endl;
     
 }
 std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction, std::string &hash)
