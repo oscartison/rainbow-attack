@@ -27,7 +27,7 @@ void sortFile(const std::string &of_pwd)
 		//cout << line << '\n';
 	}
 
-	sort(fileLines.begin(), fileLines.end()); //sorting string vector
+	sort(fileLines.begin(), fileLines.end()); 
 	std::ofstream newfile(of_pwd);
 	for (std::string &s : fileLines)
 	{
@@ -48,9 +48,9 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < n; i++)
 	{
-		v.push_back(t.enqueue(rainbow::mass_generate, 4000000, 6, 6, "table6.txt"));
-		v.push_back(t.enqueue(rainbow::mass_generate, 250000000, 7, 7, "table7.txt"));
-		v.push_back(t.enqueue(rainbow::mass_generate, 15000000000, 8, 8, "table8.txt")); //I could push any function here, not only (int)(*f)(int,int)
+		v.push_back(t.enqueue(rainbow::mass_generate, 18000000 / n, 6, 6, "table6.txt"));
+		//v.push_back(t.enqueue(rainbow::mass_generate, 250000000 / n, 7, 7, "table7.txt"));
+		//v.push_back(t.enqueue(rainbow::mass_generate, 15000000000, 8, 8, "table8.txt")); //I could push any function here, not only (int)(*f)(int,int)
 	}
 
 	for (auto &&future : v)
@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 	}
 
 	sortFile("table6.txt");
-	sortFile("table7.txt");
-	sortFile("table8.txt");
+	//sortFile("table7.txt");
+	//sortFile("table8.txt");
 
 }
