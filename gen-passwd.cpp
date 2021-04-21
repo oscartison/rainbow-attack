@@ -7,6 +7,7 @@
 #include <thread>
 #include <mutex>
 #include <future>
+#include <string>
 
 int make_addition(int i, int j)
  {
@@ -15,7 +16,7 @@ int make_addition(int i, int j)
 
 int main(int argc, char *argv[])
 {
-	if(argc != 6)
+	if(argc != 5)
 	{
 		std::cerr << "Usage : \"gen-passwd c mc MC of_pwd of_hash\", where" << std::endl
 			<< "- c is the size of rainbow table in gb ," << std::endl
@@ -31,18 +32,49 @@ int main(int argc, char *argv[])
 	int mc = std::stoi(argv[2]);
 	int MC = std::stoi(argv[3]);
 
-	ThreadPool t(8); //a pool of 8 threads
+ unsigned int n = std::thread::hardware_concurrency();
+
+	ThreadPool t(n); //a pool of 8 threads
 
     std::vector<std::future<void>> v; 
+    std::cout << n << " concurrent threads are supported.\n";
 
-    for(int i = 0; i < 8; i++){
-        v.push_back(t.enqueue(rainbow::mass_generate, c, mc, MC, argv[4], argv[5])); //I could push any function here, not only (int)(*f)(int,int)
+    for(int i = 0; i < n; i++){
+        v.push_back(t.enqueue(rainbow::mass_generate, c, mc, MC, argv[4])); //I could push any function here, not only (int)(*f)(int,int)
 
 	}
-	for (auto &&future : v)
+
+	 std::vector<std::string> fileLines;
+	    std::string line;
+		std::ifstream myfile(argv[4]);
+
+    //stack overflow example
+    if (!myfile) //test the file
+    {
+        std::cout << "Unable to open the file" << std::endl;
+        return 0;
+    }
+
+		for (auto &&future : v)
 	{
 		future.wait();
 	}
+
+    while (std::getline(myfile, line))
+    {
+        fileLines.push_back(line);
+        //cout << line << '\n';
+    }
+
+    sort(fileLines.begin(), fileLines.end()); //sorting string vector
+	std::ofstream newfile (argv[4]);
+    for (std::string &s : fileLines)
+    {
+        
+        newfile << s << std::endl;
+    };
+
+
 	
 
 	

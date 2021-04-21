@@ -96,13 +96,15 @@ double find_pwd_in_file(const std::string& if_head, const std::string& if_tail,c
         int success = 0;
         while (std::getline(crack_file, crack))
         {
+            std::cout << crack << std::endl;
 
             while(std::getline(head_file, head) && std::getline(tail_file, tail))
 		    {
 			    count++;
-			    if(find_passwd(crack,head, tail).compare("") != 0){
+                std::string pwd = find_passwd(crack,head, tail);
+			    if(pwd.compare("") != 0){
 				    success++;
-                    std::cout << "1 succes" << std::endl;
+                    std::cout << pwd << std::endl;
                 }
 		    }
 
@@ -124,9 +126,9 @@ int main(int argc, char *argv[])
     std::string head = c.to_string().substr(0, 6);
     std::string tail = c.to_string().substr(7, 12);
 
-    std::cout <<"finded : "<<find_passwd(temp, head,tail) << std::endl;
+    std::cout <<"found : "<<find_passwd(temp, head,tail) << std::endl;
 
 
-    //std::cout << find_pwd_in_file(argv[1],argv[2],argv[3]) << std::endl;
+    std::cout << find_pwd_in_file(argv[1],argv[2],argv[3]) << std::endl;
     return 0;
 }

@@ -4,9 +4,14 @@
 #include <iostream>
 #include <functional>
 #include <cmath>
+#include <mutex>
+
 namespace rainbow {
 
-std::string generate_passwd(int length)
+
+std::mutex mtx2;           // mutex for critical section
+
+std::string Hash_Chain::generate_passwd(int length)
 {
 	static const std::string char_policy = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN1234567890";
 	static const int c_len = char_policy.length();
@@ -30,9 +35,12 @@ std::string generate_passwd(int length)
 
 Hash_Chain::Hash_Chain(int lenght)
 {
+    //mtx2.lock();
     // pour avoir le même chaine tant qu'on test 
-    head_ = "0HYp6N";
+    //head_ = "0HYp6N";
+    head_ = generate_passwd(lenght);
     generateChain();
+   // mtx2.unlock();
 }
 void Hash_Chain::generateChain(){
     std::string hash ;
@@ -44,9 +52,9 @@ void Hash_Chain::generateChain(){
     while (i<CHAIN_LENGTH)
     {
         hash=sha256(passwd);
-        std::cout << hash << std::endl;
+        //std::cout << hash << std::endl;
         passwd = reduction_function(head_.size(),i,hash);
-        std::cout << passwd << std::endl;
+        //std::cout << passwd << std::endl;
 
         i++;
     }
