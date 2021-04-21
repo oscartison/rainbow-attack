@@ -38,21 +38,6 @@ void sortFile(const std::string &of_pwd)
 
 int main(int argc, char *argv[])
 {
-	if (argc != 5)
-	{
-		std::cerr << "Usage : \"gen-passwd c mc MC of_pwd of_hash\", where" << std::endl
-				  << "- c is the size of rainbow table in gb ," << std::endl
-				  << "- mc is the minimum number of chars allowed in an alphanumeric password," << std::endl
-				  << "- MC is the maximum number of chars allowed in an alphanumeric password," << std::endl
-				  << "- of_pwd is the name of the output file where the passwords will be stored" << std::endl
-				  << "- of_hash is the name of the output file where the sha-256 hashes of the passwords will be stored" << std::endl;
-		return 1;
-	}
-	//change in size of rainbow table .
-	int c = std::stoi(argv[1]);
-
-	int mc = std::stoi(argv[2]);
-	int MC = std::stoi(argv[3]);
 
 	unsigned int n = std::thread::hardware_concurrency();
 
@@ -63,7 +48,9 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < n; i++)
 	{
-		v.push_back(t.enqueue(rainbow::mass_generate, c, mc, MC, argv[4])); //I could push any function here, not only (int)(*f)(int,int)
+		v.push_back(t.enqueue(rainbow::mass_generate, 4000000, 6, 6, "table6.txt"));
+		v.push_back(t.enqueue(rainbow::mass_generate, 250000000, 7, 7, "table7.txt"));
+		v.push_back(t.enqueue(rainbow::mass_generate, 15000000000, 8, 8, "table8.txt")); //I could push any function here, not only (int)(*f)(int,int)
 	}
 
 	for (auto &&future : v)
@@ -71,5 +58,8 @@ int main(int argc, char *argv[])
 		future.wait();
 	}
 
-	sortFile(argv[4]);
+	sortFile("table6.txt");
+	sortFile("table7.txt");
+	sortFile("table8.txt");
+
 }

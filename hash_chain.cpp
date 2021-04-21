@@ -1,6 +1,6 @@
 #include "hash_chain.h"
 #include "random.hpp"
-#include "sha256.h"
+
 #include <iostream>
 #include <functional>
 #include <cmath>
@@ -47,7 +47,6 @@ void Hash_Chain::generateChain(){
     std::string passwd = head_;
     int i = 0 ; 
     // hash = sha256(head_);
-    std::cout << passwd << std::endl;
 
     while (i<CHAIN_LENGTH)
     {
@@ -60,7 +59,6 @@ void Hash_Chain::generateChain(){
     }
 
     tail_ = passwd;
-    std::cout << "hash tail "<< sha256(tail_) << std::endl;
     
 }
 std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction, std::string &hash)
