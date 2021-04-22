@@ -35,26 +35,19 @@ std::string Hash_Chain::generate_passwd(int length)
 
 Hash_Chain::Hash_Chain(int lenght)
 {
-    //mtx2.lock();
-    // pour avoir le même chaine tant qu'on test 
-    //head_ = "0HYp6N";
     head_ = generate_passwd(lenght);
     generateChain();
-   // mtx2.unlock();
 }
 void Hash_Chain::generateChain(){
     std::string hash ;
     std::string passwd = head_;
     int i = 0 ; 
-    // hash = sha256(head_);
 
     while (i<CHAIN_LENGTH)
     {
         SHA256 a;
         hash=a(passwd);
-        //std::cout << hash << std::endl;
         passwd = reduction_function(head_.size(),i,hash);
-        //std::cout << passwd << std::endl;
 
         i++;
     }

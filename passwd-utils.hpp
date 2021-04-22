@@ -11,7 +11,7 @@ namespace rainbow {
 std::mutex mtx;           // mutex for critical section
 
 
-void mass_generate(std::size_t n, int mc, int MC, const std::string& of_pwd)
+void mass_generate(std::size_t n, int mc,const std::string& of_pwd)
 {
 	std::ofstream passwd_file;
 	passwd_file.open(of_pwd,std::ios::app);
@@ -19,13 +19,14 @@ void mass_generate(std::size_t n, int mc, int MC, const std::string& of_pwd)
 
 	if(passwd_file.is_open())
 	{		
-		for(std::size_t i = 0; i < n; i++)
-		{
-			
-			//mtx.lock();
-			rainbow::Hash_Chain hc = rainbow::Hash_Chain(mc);
-			passwd_file << hc.to_string() << std::endl;
-			//mtx.unlock();
+		for(std::size_t i = 0; i < n / 100; i++)
+		{ 
+			std::string l = "";
+			for(int j = 0; j < 100; j++) {
+				rainbow::Hash_Chain hc = rainbow::Hash_Chain(mc);
+				l += hc.to_string() + "\n";
+			}
+			passwd_file << l;
 		}
 
 		passwd_file.close();

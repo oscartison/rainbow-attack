@@ -8,20 +8,24 @@
 #include <map>
 #define CHAIN_LENGTH 3000
 
-namespace rainbow {
-class Hash_Chain{
-    std::string head_ ;
-    std::string tail_ ;
-    void generateChain();
+namespace rainbow
+{
+    class Hash_Chain
+    {
+        std::string head_;
+        std::string tail_;
+        void generateChain();
+
     public:
-    std::string static reduction_function(int lenghtOfPasswd,int nbOfReduction, std::string &hash);
-    std::string generate_passwd(int length);
+        std::string static reduction_function(int lenghtOfPasswd, int nbOfReduction, std::string &hash);
+        std::string generate_passwd(int length);
+
     public:
-    std::string head() ;
-    std::string tail() ;
-    Hash_Chain(int lenght);
-    std::string to_string();
-};
+        std::string head();
+        std::string tail();
+        Hash_Chain(int lenght);
+        std::string to_string();
+    };
 }
 
 #endif // HASh_CHAIN_H
