@@ -81,7 +81,8 @@ std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction
       hash_int /= 62;
       encoded = charset[r] + encoded;
 
-}
+   } 
+
     return encoded ;
 }
 

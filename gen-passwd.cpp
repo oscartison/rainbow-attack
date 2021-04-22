@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 
 	for (int i = 0; i < n; i++)
 	{
-		v.push_back(t.enqueue(rainbow::mass_generate, 18000000 / n, 6, 6, "table6.txt"));
+		v.push_back(t.enqueue(rainbow::mass_generate, 18000 / n, 6, 6, "table6.txt"));
 		//v.push_back(t.enqueue(rainbow::mass_generate, 250000000 / n, 7, 7, "table7.txt"));
 		//v.push_back(t.enqueue(rainbow::mass_generate, 15000000000, 8, 8, "table8.txt")); //I could push any function here, not only (int)(*f)(int,int)
 	}
