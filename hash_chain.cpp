@@ -88,6 +88,6 @@ std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction
 
 std::string Hash_Chain::to_string()
 {
-    return head_+ ":" + tail_;
+    return tail_ +":" + head_;
 }
 }

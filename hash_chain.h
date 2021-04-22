@@ -6,7 +6,7 @@
 #include <functional>
 #include <cmath>
 #include <map>
-#define CHAIN_LENGTH 3000
+#define CHAIN_LENGTH 10000
 
 namespace rainbow {
 class Hash_Chain{

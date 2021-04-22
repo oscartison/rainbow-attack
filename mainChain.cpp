@@ -161,7 +161,7 @@ void find_pwd_in_file(const std::string &if_tail, const std::string &if_crack)
                 std::string tempS;
                 int tmp = i;
 
-                while (tmp <= CHAIN_LENGTH)
+                while (tmp < CHAIN_LENGTH)
                 {
                     tempS = rainbow::Hash_Chain::reduction_function(6, tmp, candidatHashc);
                     candidatHashc = a(tempS);
