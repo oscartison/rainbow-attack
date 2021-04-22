@@ -86,6 +86,15 @@ std::string find_passwd(std::string hash, std::string head, std::string tail)
     return "";
 }
 
+std::string GetHead(std::ifstream &inFile, int pos, int length)
+{
+    char buffer[length];
+    inFile.clear();
+    inFile.seekg((pos * (2 * length) + (pos * 2) + length + 1), std::ios::beg);
+    inFile.read(buffer, length);
+    return buffer;
+}
+
 std::string GetRecord(std::ifstream &inFile, int pos, int length)
 {
     char buffer[length];
@@ -95,14 +104,14 @@ std::string GetRecord(std::ifstream &inFile, int pos, int length)
     return buffer;
 }
 
-bool Binary_Search(const string &filename, string SearchVal, int length, int sizeFile)
+std::string Binary_Search(const string &filename, string SearchVal, int length, int sizeFile)
 {
     std::ifstream file(filename.c_str(), std::ios::binary);
     if (!file.is_open())
     {
         cout << "Error opening file" << endl;
         cout << "\n";
-        return false ;
+        return "" ;
     }
     int pos = 0;
     int lowerLimit = 0;
@@ -118,7 +127,7 @@ bool Binary_Search(const string &filename, string SearchVal, int length, int siz
             cout << "Found!";
             lowerLimit = 1; // For stopping (If found!)
             upperLimit = 0; // For stopping
-            return true ;
+            return GetHead(file,pos,length) ;
         }
         else if (SearchVal > buffer)
         {
@@ -129,7 +138,7 @@ bool Binary_Search(const string &filename, string SearchVal, int length, int siz
             upperLimit = pos;
         }
     }
-    return false ;
+    return "" ;
 }
 
 void find_pwd_in_file(const std::string &if_tail, const std::string &if_crack)
@@ -167,8 +176,9 @@ void find_pwd_in_file(const std::string &if_tail, const std::string &if_crack)
                     candidatHashc = a(tempS);
                     tmp++;
                 }
-                if(Binary_Search(if_tail, tempS, 6, nbLines)){
-                    std::string  head  = crack.substr(crack.size() - 6, crack.size());
+                std::string head = Binary_Search(if_tail, tempS, 6, nbLines);
+                std::cout << head;
+                if(head.compare("") != 0){
                     std::cout << head << std::endl;
                     std::string pass = find_passwd(head,crack);
                     std::cout << pass << std::endl;
