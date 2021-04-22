@@ -8,6 +8,9 @@
 using std::cout;
 using std::endl;
 using std::string;
+
+  SHA256 a;
+
 /**
  * @brief Find the password that generate the given hash
  * 
@@ -17,10 +20,11 @@ using std::string;
  */
 std::string find_passwd(std::string head, std::string hash)
 {
+  
     using namespace rainbow;
     int index = 0;
     std::string pass = head;
-    std::string candidatHash = sha256(head);
+    std::string candidatHash = a(head);
 
     while (index < CHAIN_LENGTH)
     {
@@ -29,7 +33,7 @@ std::string find_passwd(std::string head, std::string hash)
             return pass;
         }
         pass = Hash_Chain::reduction_function(head.size(), index, candidatHash);
-        candidatHash = sha256(pass);
+        candidatHash = a(pass);
         index++;
     }
     return "";
@@ -65,17 +69,17 @@ std::string find_passwd(std::string hash, std::string head, std::string tail)
 
                 return find_passwd(head, hash);
             }
-            candidatHashc = sha256(temp);
+            candidatHashc = a(temp);
             tmp++;
         }
         //std::cout << "end of while imbrique avec i :" << i << std::endl;
         i--;
     }
-    if (sha256(head) == hash)
+    if (a(head) == hash)
     {
         return head;
     }
-    if (sha256(tail) == hash)
+    if (a(tail) == hash)
     {
         return tail;
     }
@@ -160,7 +164,7 @@ void find_pwd_in_file(const std::string &if_tail, const std::string &if_crack)
                 while (tmp <= CHAIN_LENGTH)
                 {
                     tempS = rainbow::Hash_Chain::reduction_function(6, tmp, candidatHashc);
-                    candidatHashc = sha256(tempS);
+                    candidatHashc = a(tempS);
                     tmp++;
                 }
                 if(Binary_Search(if_tail, tempS, 6, nbLines)){

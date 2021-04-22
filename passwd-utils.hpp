@@ -22,8 +22,8 @@ void mass_generate(std::size_t n, int mc, int MC, const std::string& of_pwd)
 		for(std::size_t i = 0; i < n; i++)
 		{
 			
-			rainbow::Hash_Chain hc = rainbow::Hash_Chain(rainbow::random(mc, MC));
 			mtx.lock();
+			rainbow::Hash_Chain hc = rainbow::Hash_Chain(mc);
 			passwd_file << hc.tail() << ":" << hc.head() << std::endl;
 			mtx.unlock();
 		}

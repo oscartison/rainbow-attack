@@ -50,7 +50,8 @@ void Hash_Chain::generateChain(){
 
     while (i<CHAIN_LENGTH)
     {
-        hash=sha256(passwd);
+        SHA256 a;
+        hash=a(passwd);
         //std::cout << hash << std::endl;
         passwd = reduction_function(head_.size(),i,hash);
         //std::cout << passwd << std::endl;
@@ -64,7 +65,6 @@ void Hash_Chain::generateChain(){
 std::string Hash_Chain::reduction_function(int lenghtOfPasswd, int nbOfReduction, std::string &hash)
 {
     std::string charset ="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    std::string passwd ;
     std::size_t hash_int = std::hash<std::string>{}(hash);
     
     hash_int = (hash_int + nbOfReduction) % (std::size_t)std::abs(std::pow(charset.size(), lenghtOfPasswd));

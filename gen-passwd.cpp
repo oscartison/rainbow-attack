@@ -39,7 +39,7 @@ void sortFile(const std::string &of_pwd)
 int main(int argc, char *argv[])
 {
 
-	unsigned int n = std::thread::hardware_concurrency();
+	int n = std::thread::hardware_concurrency();
 
 	ThreadPool t(n); //a pool of 8 threads
 
