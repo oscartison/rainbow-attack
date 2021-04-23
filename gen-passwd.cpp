@@ -9,6 +9,8 @@
 #include <future>
 #include <string>
 
+
+
 void sortFile(const std::string &of_pwd)
 {
 	std::vector<std::string> fileLines;
@@ -38,16 +40,14 @@ int main(int argc, char *argv[])
 
 	int n = std::thread::hardware_concurrency();
 
-	ThreadPool t(n); //a pool of 8 threads
+	ThreadPool t(n);
 
 	std::vector<std::future<void>> v;
 	std::cout << n << " concurrent threads are supported.\n";
 
 	for (int i = 0; i < n; i++)
 	{
-		v.push_back(t.enqueue(rainbow::mass_generate, 100000 / n, 6, "table6.txt"));
-		//v.push_back(t.enqueue(rainbow::mass_generate, 250000000 / n, 7, 7, "table7.txt"));
-		//v.push_back(t.enqueue(rainbow::mass_generate, 15000000000, 8, 8, "table8.txt")); //I could push any function here, not only (int)(*f)(int,int)
+		v.push_back(t.enqueue(rainbow::mass_generate, 100000000 / n, 8, "table6.txt"));
 	}
 
 	for (auto &&future : v)
@@ -55,8 +55,6 @@ int main(int argc, char *argv[])
 		future.wait();
 	}
 
-	sortFile("table6.txt");
-	//sortFile("table7.txt");
-	//sortFile("table8.txt");
 
+	sortFile("table6.txt");
 }

@@ -6,24 +6,29 @@
 #include <functional>
 #include <cmath>
 #include <map>
-#define CHAIN_LENGTH 3000
+
+#define CHAIN_LENGTH 50000
 
 namespace rainbow
 {
+    
+    
     class Hash_Chain
     {
+        
         std::string head_;
         std::string tail_;
+        const int size_;
         void generateChain();
 
     public:
-        std::string static reduction_function(int lenghtOfPasswd, int nbOfReduction, std::string &hash);
-        std::string generate_passwd(int length);
+        std::string static reduction_function(int& lenghtOfPasswd, int & nbOfReduction, std::string &hash);
+        std::string generate_passwd(int& length);
 
     public:
         std::string head();
         std::string tail();
-        Hash_Chain(int lenght);
+        Hash_Chain(int& lenght);
         std::string to_string();
     };
 }
