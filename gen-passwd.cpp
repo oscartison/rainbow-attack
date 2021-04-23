@@ -9,8 +9,11 @@
 #include <future>
 #include <string>
 
-
-
+/**
+ * @brief Sorts the file by tail of chain .
+ * 
+ * @param of_pwd name of file .
+ */
 void sortFile(const std::string &of_pwd)
 {
 	std::vector<std::string> fileLines;

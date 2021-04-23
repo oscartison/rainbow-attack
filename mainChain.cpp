@@ -17,11 +17,11 @@ using std::string;
 SHA256 a;
 
 /**
- * @brief Find the password that generate the given hash
+ * @brief Find the password that generate the given hash using the head of precomputed chain .
  * 
- * @param head 
- * @param hash 
- * @return std::string 
+ * @param head a head of a precomputed  chain.
+ * @param hash a string hash of a password to crack 
+ * @return std::string password that generates the given hash if he is in the chain otherwise returns empty string .
  */
 std::string find_passwd(std::string &head, std::string &hash, int &length)
 {
@@ -44,6 +44,14 @@ std::string find_passwd(std::string &head, std::string &hash, int &length)
     return "";
 }
 
+/**
+ * @brief Get the Head in a given file at the given position with given length .
+ * 
+ * @param inFile a file with precomputed chains.
+ * @param pos an integer .
+ * @param length an integer .
+ * @return std::string that is the head of a precomputed chain.
+ */
 std::string GetHead(std::ifstream &inFile, int &pos, int &length)
 {
     char buffer[length];
@@ -53,6 +61,14 @@ std::string GetHead(std::ifstream &inFile, int &pos, int &length)
     return buffer;
 }
 
+/**
+ * @brief Get the Tail in a given file at the given position with given length .
+ * 
+ * @param inFile a file with precomputed chains.
+ * @param pos an integer .
+ * @param length an integer .
+ * @return std::string that is the tail of a precomputed chain.
+ */
 std::string GetTail(std::ifstream &inFile, int &pos, int &length)
 {
     char buffer[length];
@@ -62,6 +78,17 @@ std::string GetTail(std::ifstream &inFile, int &pos, int &length)
     return buffer;
 }
 
+/**
+ * @brief Searches the search value (a precomputed chain ) in the file and returns the head of the chain 
+ * if the search value is present in the file otherwise returns a emptry string .
+ * 
+ * @param filename a file with precomputed chains.
+ * @param SearchVal a value to search .
+ * @param length an integer .
+ * @param sizeFile an integer .
+ * @return std::string version the head of the chain if the search value is present in the file otherwise 
+ * returns a emptry string .
+ */
 std::string Binary_Search(const string &filename, string &SearchVal, int &length, int &sizeFile)
 {
     std::ifstream file(filename.c_str(), std::ios::binary);
@@ -99,6 +126,14 @@ std::string Binary_Search(const string &filename, string &SearchVal, int &length
     return "";
 }
 
+/**
+ * @brief Finds the the corresponding passwords of the hashes using a file with precomputed chains of 
+ * passwords and hashes (Hash_Chain) and a file with hashes to crack .
+ * 
+ * @param if_tail the file with precomputed chains .
+ * @param if_crack the file with hashes to crack .
+ * @param length the length of stored tail in the file with precomputed chains.
+ */
 void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecHash, int &length)
 {
     std::ifstream tail_file;

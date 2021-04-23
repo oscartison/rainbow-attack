@@ -13,6 +13,13 @@ namespace rainbow
 
 	std::mutex mtx; // mutex for critical section
 
+	/**
+	 * @brief generates n number of chains and write them in a file .
+	 * 
+	 * @param n number of chains .
+	 * @param mc length of password .
+	 * @param of_pwd a name of file .
+	 */
 	void mass_generate(std::size_t n, int mc, const std::string &of_pwd)
 	{
 		std::ofstream passwd_file;
