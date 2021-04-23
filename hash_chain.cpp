@@ -81,10 +81,10 @@ namespace rainbow
     std::string Hash_Chain::to_string()
     {
         std::string s = std::string((((size_) *2) + 2), ':');
-        s.replace(0,size_ - 1,tail_);
-        s.replace(size_ + 1, size_ * 2, head_);
-        s.replace(size_ *2 +1,size_*2 + 2, "\n");
-
+        const static std::string newline = "\n";
+        std::memcpy(&s[0],&tail_[0],size_);
+        std::memcpy(&s[size_ + 1],&head_[0],size_);
+        std::memcpy(&s[size_* 2 + 1],&newline[0],1);
         return s;
     }
 }

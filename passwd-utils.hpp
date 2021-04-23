@@ -5,6 +5,8 @@
 #include "hash_chain.h"
 #include "random.hpp"
 #include "sha256.h"
+#include <cstring>
+
 
 namespace rainbow
 {
@@ -15,19 +17,23 @@ namespace rainbow
 	{
 		std::ofstream passwd_file;
 		passwd_file.open(of_pwd, std::ios::app);
+
+		
 		if (passwd_file.is_open())
 		{
-			std::size_t sizeSubString = 10000;
-
+			std::size_t sizeSubString = 1000;
+			std::string l = std::string((sizeSubString * mc * 2) + sizeSubString * 2, 'c');
+			std::string hcString = std::string(mc * 2 + 2,'c');
 			for (std::size_t i = 0; i < n / sizeSubString; i++)
 			{
 				
-				std::string l = std::string((sizeSubString * mc * 2) + sizeSubString, 'c');
+				
 				for (std::size_t j = 0; j < sizeSubString; j++)
 				{
 					rainbow::Hash_Chain hc = rainbow::Hash_Chain(mc);
 
-					l.replace(j * ((2 * mc) + 2), (j * ((2 * mc) + 2) + (mc * 2 + 2)), hc.to_string());
+					hcString = hc.to_string();
+					std::memcpy(&l[j * (mc *2 + 2)], &hcString[0], mc * 2 + 2);
 
 				}
 				mtx.lock();
