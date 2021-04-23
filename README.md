@@ -12,6 +12,12 @@ g++ -pthread -O3 -o crack -std=c++17 random.hpp sha256.cpp passwd-utils.hpp thre
 g++ -pthread -O3 -o gen -std=c++17 random.hpp sha256.cpp passwd-utils.hpp threadpool.hpp gen-passwd.cpp hash_chain.cpp 
 ```
 
+or 
+
+```bash
+make
+``` 
+
 <br/>
 
 ### Generate Rainbow Table 
