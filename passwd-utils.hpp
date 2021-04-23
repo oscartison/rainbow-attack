@@ -15,8 +15,6 @@ namespace rainbow
 	{
 		std::ofstream passwd_file;
 		passwd_file.open(of_pwd, std::ios::app);
-
-		
 		if (passwd_file.is_open())
 		{
 			std::size_t sizeSubString = 10000;
