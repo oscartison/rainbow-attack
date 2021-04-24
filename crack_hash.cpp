@@ -17,15 +17,14 @@ using std::string;
 SHA256 a;
 
 /**
- * @brief Find the password that generate the given hash using the head of precomputed chain .
+ * @brief Finds the password that generates the given hash using the head of the precomputed chain.
  * 
- * @param head a head of a precomputed  chain.
- * @param hash a string hash of a password to crack 
- * @return std::string password that generates the given hash if he is in the chain otherwise returns empty string .
+ * @param head a head of a precomputed chain.
+ * @param hash a string hash of a password to crack.
+ * @return std::string password that generates the given hash if he is in the chain otherwise returns an empty string.
  */
 std::string find_passwd(std::string &head, std::string &hash, int &length)
 {
-
     using namespace rainbow;
     int index = 0;
     std::string pass = head;
@@ -45,11 +44,11 @@ std::string find_passwd(std::string &head, std::string &hash, int &length)
 }
 
 /**
- * @brief Get the Head in a given file at the given position with given length .
+ * @brief Gets the head with given length of a hash chain in a given file at the given position.
  * 
  * @param inFile a file with precomputed chains.
- * @param pos an integer .
- * @param length an integer .
+ * @param pos an integer for the position of the hash chain.
+ * @param length an integer for the length of the head.
  * @return std::string that is the head of a precomputed chain.
  */
 std::string GetHead(std::ifstream &inFile, int &pos, int &length)
@@ -62,11 +61,11 @@ std::string GetHead(std::ifstream &inFile, int &pos, int &length)
 }
 
 /**
- * @brief Get the Tail in a given file at the given position with given length .
+ * @brief Gets the tail with given length of a hash chain in a given file at the given position.
  * 
  * @param inFile a file with precomputed chains.
- * @param pos an integer .
- * @param length an integer .
+ * @param pos an integer for the position of the hash chain.
+ * @param length an integer for the length of the tail.
  * @return std::string that is the tail of a precomputed chain.
  */
 std::string GetTail(std::ifstream &inFile, int &pos, int &length)
@@ -79,15 +78,15 @@ std::string GetTail(std::ifstream &inFile, int &pos, int &length)
 }
 
 /**
- * @brief Searches the search value (a precomputed chain ) in the file and returns the head of the chain 
- * if the search value is present in the file otherwise returns a emptry string .
+ * @brief Searches the search value (a precomputed chain) in the file and returns the head of the chain 
+ * if the search value is present in the file otherwise returns a empty string.
  * 
  * @param filename a file with precomputed chains.
- * @param SearchVal a value to search .
- * @param length an integer .
- * @param sizeFile an integer .
+ * @param SearchVal a value to search.
+ * @param length an integer for the length of the value to search.
+ * @param sizeFile an integer of the number of lines in the file.
  * @return std::string version the head of the chain if the search value is present in the file otherwise 
- * returns a emptry string .
+ * returns an empty string.
  */
 std::string Binary_Search(const string &filename, string &SearchVal, int &length, int &sizeFile)
 {
@@ -128,10 +127,10 @@ std::string Binary_Search(const string &filename, string &SearchVal, int &length
 
 /**
  * @brief Finds the the corresponding passwords of the hashes using a file with precomputed chains of 
- * passwords and hashes (Hash_Chain) and a file with hashes to crack .
+ * passwords and hashes (Hash_Chain) and a vector with hashes to crack.
  * 
- * @param if_tail the file with precomputed chains .
- * @param if_crack the file with hashes to crack .
+ * @param if_tail the file with precomputed chains.
+ * @param vecHash the vector with hashes to crack.
  * @param length the length of stored tail in the file with precomputed chains.
  */
 void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecHash, int &length)
@@ -146,7 +145,7 @@ void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecH
         int nbLines = std::count(std::istreambuf_iterator<char>(tail_file),
                                  std::istreambuf_iterator<char>(), '\n');
 
-       for(auto crack: vecHash)
+        for (auto crack : vecHash)
         {
             int i = CHAIN_LENGTH;
             bool cont = true;
@@ -179,13 +178,19 @@ void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecH
         throw std::runtime_error("Input files could not be opened");
 }
 
+/**
+ * @brief Divides a file in equally large vector.
+ * 
+ * @param if_crack the file to divide.
+ * @param nbThread the number of vectors to divide the file in
+ * @return a vector containing nbThread vectors.
+ */
 std::vector<std::vector<std::string>> divideFile(const std::string &if_crack, size_t &nbThread)
 {
     std::ifstream crack_file;
     crack_file.open(if_crack);
 
     std::vector<std::vector<std::string>> output;
-
     std::vector<std::string> cracks;
 
     std::copy(std::istream_iterator<std::string>(crack_file),
@@ -197,13 +202,13 @@ std::vector<std::vector<std::string>> divideFile(const std::string &if_crack, si
 
     std::size_t begin = 0;
     std::size_t end = 0;
-//https://stackoverflow.com/questions/6861089/how-to-split-a-vector-into-n-almost-equal-parts
+
+    //https://stackoverflow.com/questions/6861089/how-to-split-a-vector-into-n-almost-equal-parts
+
     for (size_t i = 0; i < std::min(nbThread, cracks.size()); ++i)
     {
         end += (remain > 0) ? (length + !!(remain--)) : length;
-
         output.push_back(std::vector<std::string>(cracks.begin() + begin, cracks.begin() + end));
-
         begin = end;
     }
     return output;
@@ -237,7 +242,12 @@ int main(int argc, char *argv[])
     }
     else
     {
-        std::cout << "erreur" << std::endl;
+        std::cerr << "Unknown action " << std::endl
+                  << "supported action : " << std::endl
+                  << "\"crack lengthOfPassword rt.txt hashToCrack.txt\", where" << std::endl
+                  << "- lengthOfPassword is the length of the password to crack," << std::endl
+                  << "- rt.txt is the rainbow table." << std::endl
+                  << "- hashToCrack.txt is the file containing the hashes to crack." << std::endl;
     }
 
     return 0;

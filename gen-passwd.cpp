@@ -10,9 +10,9 @@
 #include <string>
 
 /**
- * @brief Sorts the file by tail of chain .
+ * @brief Sorts the file according to the tail of the chain.
  * 
- * @param of_pwd name of file .
+ * @param of_pwd name of file containing the rainbow table.
  */
 void sortFile(const std::string &of_pwd)
 {
@@ -30,7 +30,7 @@ void sortFile(const std::string &of_pwd)
 		fileLines.push_back(line);
 	}
 
-	sort(fileLines.begin(), fileLines.end()); 
+	sort(fileLines.begin(), fileLines.end());
 	std::ofstream newfile(of_pwd);
 	for (std::string &s : fileLines)
 	{
@@ -40,12 +40,13 @@ void sortFile(const std::string &of_pwd)
 
 int main(int argc, char *argv[])
 {
-	if(argc ==4){
+	if (argc == 4)
+	{
 		int n = std::thread::hardware_concurrency();
 		ThreadPool t(n);
 		std::vector<std::future<void>> v;
 		std::cout << n << " concurrent threads are supported.\n";
-		std::size_t nbLignes =atoi(argv[1]);
+		std::size_t nbLignes = atoi(argv[1]);
 		int lengthOfPassword = atoi(argv[2]);
 		std::string rt = argv[3];
 		std::cout << nbLignes << " : " << lengthOfPassword << " : " << rt << std::endl;
@@ -58,21 +59,28 @@ int main(int argc, char *argv[])
 		{
 			future.wait();
 		}
-	}else if (argc == 3){
+	}
+	else if (argc == 3)
+	{
 		std::string action = argv[1];
 		std::string rt = argv[2];
-		if(action == "sort"){
-			std::cout << "sorting ... " ;
+		if (action == "sort")
+		{
+			std::cout << "sorting ... ";
 			sortFile(rt);
-		}else {
+		}
+		else
+		{
 			std::cerr << "Unknown action " << std::endl
 					  << "supported action : sort (sort the rainbow table )" << std::endl;
 		}
-	}else {
+	}
+	else
+	{
 		std::cerr << "Usage 1 : \"gen-passwd nbLignes lengthOfPassword rt\", where" << std::endl
 				  << "- nbLignes is the number of chains to generate," << std::endl
 				  << "- lengthOfPassword is the number of chars allowed in an alphanumeric password," << std::endl
-				  << "- rt is the rainbow table (file to store the generated chains of given lenght )." << std::endl
+				  << "- rt is the rainbow table (file to store the generated chains of given length)." << std::endl
 				  << "Usage 2 : \"gen-passwd action \", where" << std::endl
 				  << "- action is a string that mean what to do with raibow table  (supported action : sort )," << std::endl
 				  << "- rt is the rainbow table ." << std::endl;

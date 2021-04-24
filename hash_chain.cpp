@@ -1,6 +1,5 @@
 #include "hash_chain.h"
 #include "random.hpp"
-
 #include <iostream>
 #include <functional>
 #include <cmath>
@@ -9,7 +8,6 @@
 
 namespace rainbow
 {
-
     std::mutex mtx2; // mutex for critical section
 
     std::string Hash_Chain::generate_passwd(int &length)
@@ -35,9 +33,8 @@ namespace rainbow
         return tail_;
     }
 
-    Hash_Chain::Hash_Chain(int &lenght):
-    size_{lenght},
-    head_{generate_passwd(lenght)}
+    Hash_Chain::Hash_Chain(int &length) : size_{length},
+                                          head_{generate_passwd(length)}
     {
         generateChain();
     }
@@ -46,13 +43,12 @@ namespace rainbow
     {
         SHA256 a;
         std::string hash;
-        std::string&& passwd = std::string(head_);
+        std::string &&passwd = std::string(head_);
         int size = passwd.size();
         int i = 0;
 
         while (i < CHAIN_LENGTH)
         {
-            
             hash = a(passwd);
             passwd = reduction_function(size, i, hash);
 
@@ -61,14 +57,15 @@ namespace rainbow
 
         tail_ = passwd;
     }
-    std::string Hash_Chain::reduction_function(int &lenghtOfPasswd, int &nbOfReduction, std::string &hash)
+
+    std::string Hash_Chain::reduction_function(int &lengthOfPasswd, int &nbOfReduction, std::string &hash)
     {
         static const std::string charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        static const std::size_t p = (std::size_t)std::abs(std::pow(charset.size(), lenghtOfPasswd));
+        static const std::size_t p = (std::size_t)std::abs(std::pow(charset.size(), lengthOfPasswd));
         std::size_t hash_int = (std::hash<std::string>{}(hash) + nbOfReduction) % p;
 
-        std::string encoded = std::string(lenghtOfPasswd,'c');
-        for (int i = 0; i < lenghtOfPasswd; i++)
+        std::string encoded = std::string(lengthOfPasswd, 'c');
+        for (int i = 0; i < lengthOfPasswd; i++)
         {
             int r = hash_int % 62;
             hash_int /= 62;
@@ -80,11 +77,11 @@ namespace rainbow
 
     std::string Hash_Chain::to_string()
     {
-        std::string s = std::string((((size_) *2) + 2), ':');
+        std::string s = std::string((((size_)*2) + 2), ':');
         const static std::string newline = "\n";
-        std::memcpy(&s[0],&tail_[0],size_);
-        std::memcpy(&s[size_ + 1],&head_[0],size_);
-        std::memcpy(&s[size_* 2 + 1],&newline[0],1);
+        std::memcpy(&s[0], &tail_[0], size_);
+        std::memcpy(&s[size_ + 1], &head_[0], size_);
+        std::memcpy(&s[size_ * 2 + 1], &newline[0], 1);
         return s;
     }
 }
