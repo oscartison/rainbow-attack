@@ -147,7 +147,6 @@ void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecH
 
         for (auto crack : vecHash)
         {
-            std::cout << crack;
             int i = CHAIN_LENGTH;
             bool cont = true;
 
@@ -202,7 +201,6 @@ std::vector<std::vector<std::string>> divideFile(const std::string &if_crack, si
             cracks.push_back(crack);
         }
 
-        std::cout << "je suis ici";
         size_t length = cracks.size() / nbThread;
         size_t remain = cracks.size() % nbThread;
 
@@ -234,13 +232,11 @@ int main(int argc, char *argv[])
         int length = atoi(argv[1]);
         std::string rt = argv[2];
         std::string to_crack = argv[3];
-        std::cout << length << " : " << rt << " : " << to_crack << std::endl;
 
         std::vector<std::vector<std::string>> vec = divideFile(to_crack, n);
 
         for (int i = 0; i < n; i++)
         {
-            std::cout << i;
             v.push_back(t.enqueue(find_pwd_in_file, rt, vec[i], length));
         }
 
