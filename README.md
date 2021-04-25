@@ -28,10 +28,10 @@ To generate a rainbow table of `n` lines for passwords of length `pwdlength` int
 ./gen n pwdlength rt.txt
 ``` 
 
-After generating the table the file must be sorted to perform the attack. This can be done by using the following command : 
+After generating the table the file `rt.txt` must be sorted to perform the attack. This can be done by using the following command : 
 
 ```bash
-./gen sort
+./gen sort rt.txt
 ``` 
 
 <br/>

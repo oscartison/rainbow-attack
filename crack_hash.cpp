@@ -147,6 +147,7 @@ void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecH
 
         for (auto crack : vecHash)
         {
+            std::cout << crack;
             int i = CHAIN_LENGTH;
             bool cont = true;
 
@@ -185,33 +186,41 @@ void find_pwd_in_file(const std::string &if_tail, std::vector<std::string> &vecH
  * @param nbThread the number of vectors to divide the file in
  * @return a vector containing nbThread vectors.
  */
-std::vector<std::vector<std::string>> divideFile(const std::string &if_crack, size_t &nbThread)
+std::vector<std::vector<std::string>> divideFile(const std::string &if_crack, size_t nbThread)
 {
     std::ifstream crack_file;
     crack_file.open(if_crack);
-
-    std::vector<std::vector<std::string>> output;
-    std::vector<std::string> cracks;
-
-    std::copy(std::istream_iterator<std::string>(crack_file),
-              std::istream_iterator<std::string>(),
-              std::back_inserter(cracks));
-
-    size_t length = cracks.size() / nbThread;
-    size_t remain = cracks.size() % nbThread;
-
-    std::size_t begin = 0;
-    std::size_t end = 0;
-
-    //https://stackoverflow.com/questions/6861089/how-to-split-a-vector-into-n-almost-equal-parts
-
-    for (size_t i = 0; i < std::min(nbThread, cracks.size()); ++i)
+    if (crack_file.is_open())
     {
-        end += (remain > 0) ? (length + !!(remain--)) : length;
-        output.push_back(std::vector<std::string>(cracks.begin() + begin, cracks.begin() + end));
-        begin = end;
+        std::string crack;
+
+        std::vector<std::vector<std::string>> output;
+        std::vector<std::string> cracks;
+
+        while (std::getline(crack_file, crack))
+        {
+            cracks.push_back(crack);
+        }
+
+        std::cout << "je suis ici";
+        size_t length = cracks.size() / nbThread;
+        size_t remain = cracks.size() % nbThread;
+
+        std::size_t begin = 0;
+        std::size_t end = 0;
+
+        //https://stackoverflow.com/questions/6861089/how-to-split-a-vector-into-n-almost-equal-parts
+
+        for (size_t i = 0; i < std::min(nbThread, cracks.size()); ++i)
+        {
+            end += (remain > 0) ? (length + !!(remain--)) : length;
+            output.push_back(std::vector<std::string>(cracks.begin() + begin, cracks.begin() + end));
+            begin = end;
+        }
+        return output;
     }
-    return output;
+    else
+        throw std::runtime_error("Input files could not be opened");
 }
 
 int main(int argc, char *argv[])
@@ -225,13 +234,13 @@ int main(int argc, char *argv[])
         int length = atoi(argv[1]);
         std::string rt = argv[2];
         std::string to_crack = argv[3];
+        std::cout << length << " : " << rt << " : " << to_crack << std::endl;
 
-        size_t nbVectors = n;
-
-        std::vector<std::vector<std::string>> vec = divideFile(to_crack, nbVectors);
+        std::vector<std::vector<std::string>> vec = divideFile(to_crack, n);
 
         for (int i = 0; i < n; i++)
         {
+            std::cout << i;
             v.push_back(t.enqueue(find_pwd_in_file, rt, vec[i], length));
         }
 
